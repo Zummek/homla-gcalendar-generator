@@ -1,21 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './page/HomePage';
 
-function App() {
+const App = () => {
+  const { i18n } = useTranslation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Helmet
+        // titleTemplate="%s - React Boilerplate"
+        // defaultTitle="React Boilerplate"
+        htmlAttributes={{ lang: i18n.language }}
+      >
+        {/* <meta name="description" content="A React Boilerplate application" /> */}
+      </Helmet>
+
+      <Routes>
+        <Route path={`${process.env.PUBLIC_URL}/`} element={<HomePage />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
