@@ -12,7 +12,7 @@ const lightPalette = {
     placeholder: 'rgba(0,0,0,0.2)'
   },
   background: {
-    default: '#ffffff',
+    default: '#fffff',
     dark: '#f8f8f8',
     darker: '#dbdbdb'
   },
@@ -26,7 +26,8 @@ const lightPalette = {
   actions: {
     negative: '#ff0000',
     positive: '#00ff00',
-    warning: '#ffa500'
+    warning: '#ffa500',
+    focused: '#2196f3'
   }
 };
 
@@ -44,7 +45,7 @@ const darkPalette: Palette = {
     placeholder: 'rgba(255,255,255,0.28)'
   },
   background: {
-    default: '#212121',
+    default: '#121212',
     dark: '#121212',
     darker: '#202020'
   },
@@ -58,7 +59,8 @@ const darkPalette: Palette = {
   actions: {
     negative: '#ff0000',
     positive: '#00ff00',
-    warning: '#ffa500'
+    warning: '#ffa500',
+    focused: '#2196f3'
   }
 };
 

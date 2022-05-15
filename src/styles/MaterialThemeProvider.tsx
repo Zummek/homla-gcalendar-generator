@@ -15,10 +15,8 @@ const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
     () =>
       createTheme({
         palette: {
-          mode: themeMode === 'dark' ? 'dark' : 'light',
-          background: {
-            default: themeColors.background.default
-          }
+          mode: themeMode,
+          ...themeColors
         }
       }),
     [themeMode, themeColors]

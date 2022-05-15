@@ -1,3 +1,4 @@
+import { CssBaseline } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,6 +16,8 @@ const App = () => {
       >
         {/* <meta name="description" content="A React Boilerplate application" /> */}
       </Helmet>
+
+      <CssBaseline />
 
       <Routes>
         <Route path={`${process.env.PUBLIC_URL}/`} element={<HomePage />} />

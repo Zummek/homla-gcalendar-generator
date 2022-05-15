@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import { Paper } from '@mui/material';
+import styled from 'styled-components';
+import { Palette } from '../../styles/theme/customPalette';
 
 interface UploaderContainerProps {
   isDragAccept: boolean;
@@ -7,33 +8,40 @@ interface UploaderContainerProps {
   isFocused: boolean;
 }
 
-const getColor = (props: UploaderContainerProps) => {
+interface UploaderContainerThemedProps extends UploaderContainerProps {
+  theme: Palette;
+}
+
+const getColor = (props: UploaderContainerThemedProps) => {
   if (props.isDragAccept) {
-    return '#00e676';
+    return props.theme.actions.positive;
   }
   if (props.isDragReject) {
-    return '#ff1744';
+    return props.theme.actions.negative;
   }
   if (props.isFocused) {
-    return '#2196f3';
+    return props.theme.actions.focused;
   }
-  return '#eeeeee';
+  return props.theme.text.placeholder;
 };
+
+export const UploaderWrapper = styled.div`
+  max-width: 450px;
+  align-self: center;
+`;
 
 export const UploaderContainer = styled.div<UploaderContainerProps>`
   flex: 1;
-  max-width: 450px;
   display: flex;
-  align-self: center;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   border-width: 2px;
-  border-radius: 2px;
+  border-radius: 5px;
   border-color: ${(props) => getColor(props)};
   border-style: dashed;
-  background-color: #fafafa;
-  color: #bdbdbd;
+  background-color: ${({ theme }) => theme.background.darker};
+  color: ${({ theme }) => theme.text.low};
   outline: none;
   transition: border 0.24s ease-in-out;
 `;
@@ -48,4 +56,5 @@ export const StepContainer = styled.div`
 export const InfoPaper = styled(Paper)`
   padding: 15px;
   max-width: 450px;
+  margin: 0 auto;
 `;

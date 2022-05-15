@@ -1,4 +1,5 @@
 const DISABLED = 0;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WARNING = 1;
 const ERROR = 2;
 

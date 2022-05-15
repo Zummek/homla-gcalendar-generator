@@ -1,15 +1,32 @@
-import { Box, Container, Step, StepLabel, Stepper } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Button, Container, Step, StepLabel, Stepper } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import StepUpadloadFile from './StepUploadFile';
 
 const HomePage = () => {
   const { t } = useTranslation();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
+  const [allowedStep, setAllowedStep] = useState(0);
 
-  useEffect(() => {
-    setActiveStep(1);
-  }, []);
+  const isNextStepAvailable = () => {
+    return activeStep < allowedStep;
+  };
+
+  const isPreviousStepAvailable = () => {
+    return activeStep > 0;
+  };
+
+  const allowNextStep = (stepIndex: number) => {
+    setAllowedStep(stepIndex);
+  };
+
+  const nextStep = () => {
+    setActiveStep(activeStep + 1);
+  };
+
+  const previousStep = () => {
+    setActiveStep(activeStep - 1);
+  };
 
   return (
     <>
@@ -17,7 +34,7 @@ const HomePage = () => {
         <title>Home Page</title>
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
-      <Container>
+      <Container maxWidth="md">
         <Box style={{ backgroundColor: 'blue' }}>
           <Stepper activeStep={activeStep}>
             <Step key="upload-file">
@@ -32,9 +49,18 @@ const HomePage = () => {
           </Stepper>
         </Box>
 
-        {activeStep === 0 && <StepUpadloadFile />}
-        {activeStep === 1 && <StepUpadloadFile />}
-        {activeStep === 2 && <StepUpadloadFile />}
+        {activeStep === 0 && <StepUpadloadFile allowNextStep={() => allowNextStep(1)} />}
+
+        <Box textAlign="center">
+          {isPreviousStepAvailable() && (
+            <Button variant="contained" style={{ marginRight: 25 }} onClick={previousStep}>
+              {t('common.back')}
+            </Button>
+          )}
+          <Button variant="contained" disabled={!isNextStepAvailable()} onClick={nextStep}>
+            {t('common.next')}
+          </Button>
+        </Box>
       </Container>
     </>
   );

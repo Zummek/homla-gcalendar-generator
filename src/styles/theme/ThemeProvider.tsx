@@ -4,7 +4,7 @@ import { ThemeProvider as OriginalThemeProvider } from 'styled-components';
 import { useThemeSlice } from './slice';
 import { selectTheme } from './slice/selectors';
 
-export const ThemeProvider = (props: { children: React.ReactChild }) => {
+export const ThemeProvider = (props: React.PropsWithChildren<unknown>) => {
   useThemeSlice();
 
   const theme = useSelector(selectTheme);

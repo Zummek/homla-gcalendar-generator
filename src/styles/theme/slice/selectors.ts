@@ -11,7 +11,9 @@ export const selectTheme = createSelector([(state: RootState) => state.theme || 
   return palettes[theme.selected];
 });
 
-export const selectThemeKey = createSelector(
-  [(state: RootState) => state.theme || initialState],
-  (theme) => theme.selected
-);
+export const selectThemeKey = createSelector([(state: RootState) => state.theme || initialState], (theme) => {
+  if (theme.selected === 'system') {
+    return isSystemDark ? 'dark' : 'light';
+  }
+  return theme.selected;
+});
