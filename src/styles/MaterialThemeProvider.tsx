@@ -1,22 +1,27 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectTheme, selectThemeKey } from './theme/slice/selectors';
 
 interface MaterialThemeProviderProps {
   children: React.ReactNode;
 }
 
 const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const themeMode = useSelector(selectThemeKey);
+  const themeColors = useSelector(selectTheme);
 
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light'
+          mode: themeMode === 'dark' ? 'dark' : 'light',
+          background: {
+            default: themeColors.background.default
+          }
         }
       }),
-    [prefersDarkMode]
+    [themeMode, themeColors]
   );
 
   return <ThemeProvider theme={theme}>{React.Children.only(props.children)}</ThemeProvider>;
