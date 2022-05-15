@@ -1,11 +1,15 @@
 import { Box, Container, Step, StepLabel, Stepper } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import StepUpadloadFile from './StepUploadFile';
 
 const HomePage = () => {
   const { t } = useTranslation();
   const [activeStep, setActiveStep] = useState(1);
+
+  useEffect(() => {
+    setActiveStep(1);
+  }, []);
 
   return (
     <>
