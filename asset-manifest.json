@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/homla-gcalendar-generator/static/css/main.e6c13ad2.css",
+    "main.js": "/homla-gcalendar-generator/static/js/main.4da5b1e1.js",
+    "index.html": "/homla-gcalendar-generator/index.html",
+    "main.e6c13ad2.css.map": "/homla-gcalendar-generator/static/css/main.e6c13ad2.css.map",
+    "main.4da5b1e1.js.map": "/homla-gcalendar-generator/static/js/main.4da5b1e1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.4da5b1e1.js"
+  ]
+}
