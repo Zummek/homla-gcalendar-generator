@@ -3,7 +3,7 @@ const lightPalette = {
     main: '#003566'
   },
   secondary: {
-    main: '#3f5e94'
+    main: '#35777a'
   },
   text: {
     primary: '#3a3433',
@@ -36,7 +36,7 @@ const darkPalette: Palette = {
     main: '#7396ff'
   },
   secondary: {
-    main: '#3f5e94'
+    main: '#036166'
   },
   text: {
     primary: '#f1e9e7',
@@ -46,7 +46,7 @@ const darkPalette: Palette = {
   },
   background: {
     default: '#121212',
-    dark: '#121212',
+    dark: '#383838',
     darker: '#202020'
   },
   border: {

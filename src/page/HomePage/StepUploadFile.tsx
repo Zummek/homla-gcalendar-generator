@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { Row } from '../../component/Flex';
 import Separator from '../../component/Separator';
 import { selectTheme } from '../../styles/theme/slice/selectors';
 import { InfoPaper, StepContainer, UploaderContainer, UploaderWrapper } from './styled';
@@ -33,13 +34,21 @@ const StepUpadloadFile = ({ allowNextStep }: StepUploadFileProps) => {
         <Typography variant="h5" component="h3" align="center" paddingBottom={2}>
           {t('home.step1.howItWorks')}
         </Typography>
-        <Typography component="p">{t('home.step1.howItWorksInfo')}</Typography>
+        <Typography component="p" marginBottom={2}>
+          {t('home.step1.howItWorksInfo')}
+        </Typography>
+        <Row alignItems="center" justifyContent="space-around">
+          <Typography component="p" variant="caption" textAlign="center" marginRight={2}>
+            {t('home.step1.beerLicenseInfo')}
+          </Typography>
+          <img src={require('../../assets/beer.png')} height={50} alt="Beer License" />
+        </Row>
       </InfoPaper>
 
       <Separator />
 
       <UploaderWrapper>
-        <Typography variant="h6" component="h5" align="center" paddingBottom={2}>
+        <Typography variant="h6" component="h5" align="center" paddingBottom={2} paddingTop={2}>
           {t('home.step1.uploadYourWorkSchedule')}
         </Typography>
         <UploaderContainer {...getRootProps({ isFocused, isDragAccept, isDragReject })}>

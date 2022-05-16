@@ -2,6 +2,7 @@ import { Box, Button, Container, Step, StepLabel, Stepper } from '@mui/material'
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import StepUpadloadFile from './StepUploadFile';
+import { StepperContainer } from './styled';
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -35,7 +36,7 @@ const HomePage = () => {
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
       <Container maxWidth="md">
-        <Box style={{ backgroundColor: 'blue' }}>
+        <StepperContainer>
           <Stepper activeStep={activeStep}>
             <Step key="upload-file">
               <StepLabel>{t('home.uploadWorkSchedule')}</StepLabel>
@@ -47,7 +48,7 @@ const HomePage = () => {
               <StepLabel>{t('home.summary')}</StepLabel>
             </Step>
           </Stepper>
-        </Box>
+        </StepperContainer>
 
         {activeStep === 0 && <StepUpadloadFile allowNextStep={() => allowNextStep(1)} />}
 

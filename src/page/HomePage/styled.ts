@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import styled from 'styled-components';
 import { Palette } from '../../styles/theme/customPalette';
 
@@ -44,6 +44,13 @@ export const UploaderContainer = styled.div<UploaderContainerProps>`
   color: ${({ theme }) => theme.text.low};
   outline: none;
   transition: border 0.24s ease-in-out;
+`;
+
+export const StepperContainer = styled(Box)`
+  padding: 20px;
+  border-radius: 0 0 15px 15px;
+  background-color: ${({ theme }) => theme.secondary.main};
+  color: ${({ theme }) => theme.text.primary};
 `;
 
 export const StepContainer = styled.div`
