@@ -1,38 +1,45 @@
-/**
- * Create the store with dynamic reducers
- */
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+// import createSagaMiddleware from 'redux-saga';
+import thunk from 'redux-thunk';
 
-import {
-  configureStore,
-  getDefaultMiddleware,
-  StoreEnhancer,
-} from '@reduxjs/toolkit';
-import { createInjectorsEnhancer } from 'redux-injectors';
-import createSagaMiddleware from 'redux-saga';
+import rootReducer from './rootReducer';
+// import rootSaga from '@/store/rootSaga';
 
-import { createReducer } from './reducers';
+// const sagaMiddleware = createSagaMiddleware();
 
-export function configureAppStore() {
-  const reduxSagaMonitorOptions = {};
-  const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
-  const { run: runSaga } = sagaMiddleware;
+const persistConfig = {
+  key: 'root',
+  storage
+};
 
-  // Create the store with saga middleware
-  const middlewares = [sagaMiddleware];
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-  const enhancers = [
-    createInjectorsEnhancer({
-      createReducer,
-      runSaga,
-    }),
-  ] as StoreEnhancer[];
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    })
+    // sagaMiddleware,
+  ],
+  ...composeWithDevTools(applyMiddleware(thunk))
+});
 
-  const store = configureStore({
-    reducer: createReducer(),
-    middleware: [...getDefaultMiddleware(), ...middlewares],
-    devTools: process.env.NODE_ENV !== 'production',
-    enhancers,
-  });
+export const persistor = persistStore(store);
 
-  return store;
-}
+// sagaMiddleware.run(rootSaga);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const dispatch = store.dispatch;
+
+export default store;

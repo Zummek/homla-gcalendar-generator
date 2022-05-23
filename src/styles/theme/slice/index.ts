@@ -1,6 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '../../../utils/@reduxjs/toolkit';
-import { useInjectReducer } from '../../../utils/redux-injectors';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getThemeFromStorage } from '../utils';
 import { ThemeKeyType, ThemeState } from './types';
 
@@ -8,7 +6,7 @@ export const initialState: ThemeState = {
   selected: getThemeFromStorage() || 'system'
 };
 
-const slice = createSlice({
+const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
@@ -18,11 +16,5 @@ const slice = createSlice({
   }
 });
 
-export const { actions: themeActions, reducer } = slice;
-
-export const useThemeSlice = () => {
-  useInjectReducer({ key: slice.name, reducer: slice.reducer });
-  return { actions: slice.actions };
-};
-
-// TODO remove this slice module
+export const { changeTheme } = themeSlice.actions;
+export default themeSlice.reducer;

@@ -1,32 +1,34 @@
 import { Typography } from '@mui/material';
-import { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row } from '../../component/Flex';
 import Separator from '../../component/Separator';
 import { selectTheme } from '../../styles/theme/slice/selectors';
+import { setFile } from './creatorSlice';
 import { InfoPaper, StepContainer, UploaderContainer, UploaderWrapper } from './styled';
 
 interface StepUploadFileProps {
   allowNextStep: () => void;
 }
 
-const StepUpadloadFile = ({ allowNextStep }: StepUploadFileProps) => {
+const StepUploadFile = ({ allowNextStep }: StepUploadFileProps) => {
   const themeColors = useSelector(selectTheme);
   const { t } = useTranslation();
+  const dispath = useDispatch();
+
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, acceptedFiles } = useDropzone({
     maxFiles: 1,
     accept: {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx']
+    },
+    onDropAccepted(files, event) {
+      if (files.length > 0) {
+        dispath(setFile(files[0]));
+        allowNextStep();
+      }
     }
   });
-
-  useEffect(() => {
-    if (acceptedFiles.length > 0) {
-      allowNextStep();
-    }
-  }, [acceptedFiles, allowNextStep]);
 
   return (
     <StepContainer>
@@ -76,4 +78,4 @@ const StepUpadloadFile = ({ allowNextStep }: StepUploadFileProps) => {
   );
 };
 
-export default StepUpadloadFile;
+export default StepUploadFile;

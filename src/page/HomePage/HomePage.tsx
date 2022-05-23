@@ -2,7 +2,8 @@ import { Box, Button, Container, Step, StepLabel, Stepper } from '@mui/material'
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Footer from '../../component/Footer';
-import StepUpadloadFile from './StepUploadFile';
+import StepSelectPerson from './StepSelectPerson';
+import StepUploadFile from './StepUploadFile';
 import { StepperContainer } from './styled';
 
 const HomePage = () => {
@@ -51,7 +52,8 @@ const HomePage = () => {
           </Stepper>
         </StepperContainer>
 
-        {activeStep === 0 && <StepUpadloadFile allowNextStep={() => allowNextStep(1)} />}
+        {activeStep === 0 && <StepUploadFile allowNextStep={() => allowNextStep(1)} />}
+        {activeStep === 1 && <StepSelectPerson allowNextStep={() => allowNextStep(2)} />}
 
         <Box textAlign="center">
           {isPreviousStepAvailable() && (
