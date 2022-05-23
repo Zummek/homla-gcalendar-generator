@@ -1,6 +1,7 @@
 import { Box, Button, Container, Step, StepLabel, Stepper } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Footer from '../../component/Footer';
 import StepUpadloadFile from './StepUploadFile';
 import { StepperContainer } from './styled';
 
@@ -35,7 +36,7 @@ const HomePage = () => {
         <title>Home Page</title>
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ height: '100vh' }}>
         <StepperContainer>
           <Stepper activeStep={activeStep}>
             <Step key="upload-file">
@@ -63,6 +64,13 @@ const HomePage = () => {
           </Button>
         </Box>
       </Container>
+      <Footer
+        credit={{
+          href: 'https://www.flaticon.com/free-icons/beer',
+          title: 'beer icons',
+          text: 'Beer icons created by Freepik - Flaticon'
+        }}
+      />
     </>
   );
 };
