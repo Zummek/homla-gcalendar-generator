@@ -9,7 +9,7 @@
     "summary": "Summary",
     "step1": {
       "howItWorks": "How it works",
-      "howItWorksInfo": "Just upload your work schedule, select yourself and we'll generate a events in google calendar for you.",
+      "howItWorksInfo": "Just upload your work schedule, select yourself and we'll generate events in google calendar for you.",
       "dragAndDropInfo": "Drag and drop or click to select your work schedule (.xlsx)",
       "dragAndDropChangeInfo": "Drag and drop or click to change your work schedule (.xlsx)",
       "selectedfile": "Selected file: {{name}}",

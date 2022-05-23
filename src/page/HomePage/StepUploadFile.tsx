@@ -51,7 +51,10 @@ const StepUpadloadFile = ({ allowNextStep }: StepUploadFileProps) => {
         <Typography variant="h6" component="h5" align="center" paddingBottom={2} paddingTop={2}>
           {t('home.step1.uploadYourWorkSchedule')}
         </Typography>
-        <UploaderContainer {...getRootProps({ isFocused, isDragAccept, isDragReject })}>
+        <UploaderContainer
+          acceptedFiles={!!acceptedFiles.length}
+          {...getRootProps({ isFocused, isDragAccept, isDragReject })}
+        >
           <input {...getInputProps()} />
           {acceptedFiles.length === 0 ? (
             <Typography variant="body1" align="center">
@@ -69,10 +72,6 @@ const StepUpadloadFile = ({ allowNextStep }: StepUploadFileProps) => {
           )}
         </UploaderContainer>
       </UploaderWrapper>
-      {/* <aside>
-        <h4>Files</h4>
-        <ul>{files}</ul>
-      </aside> */}
     </StepContainer>
   );
 };

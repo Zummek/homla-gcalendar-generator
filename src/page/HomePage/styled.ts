@@ -6,6 +6,7 @@ interface UploaderContainerProps {
   isDragAccept: boolean;
   isDragReject: boolean;
   isFocused: boolean;
+  acceptedFiles: boolean;
 }
 
 interface UploaderContainerThemedProps extends UploaderContainerProps {
@@ -15,6 +16,9 @@ interface UploaderContainerThemedProps extends UploaderContainerProps {
 const getColor = (props: UploaderContainerThemedProps) => {
   if (props.isDragAccept) {
     return props.theme.actions.positive;
+  }
+  if (props.acceptedFiles) {
+    return props.theme.actions.positive40;
   }
   if (props.isDragReject) {
     return props.theme.actions.negative;

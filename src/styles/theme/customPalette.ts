@@ -26,6 +26,7 @@ const lightPalette = {
   actions: {
     negative: '#ff0000',
     positive: '#00ff00',
+    positive40: 'rgba(0, 255, 0, 0.4)',
     warning: '#ffa500',
     focused: '#2196f3'
   }
@@ -59,6 +60,7 @@ const darkPalette: Palette = {
   actions: {
     negative: '#ff0000',
     positive: '#00ff00',
+    positive40: 'rgba(0, 255, 0, 0.4)',
     warning: '#ffa500',
     focused: '#2196f3'
   }
