@@ -6,6 +6,7 @@
   "home": {
     "uploadWorkSchedule": "Upload work schedule",
     "chooseYourself": "Choose yourself",
+    "myNameIs": "My name is",
     "summary": "Summary",
     "step1": {
       "howItWorks": "How it works",
@@ -17,8 +18,16 @@
       "beerLicenseInfo": "This app is licensed under the Beerware license :) If you like this app, you can buy me a beer in return."
     },
     "step2": {
-      "selectYourself": "Select yourself",
-      "myNameIs": "My name is"
+      "selectYourself": "Select yourself"
+    },
+    "step3": {
+      "month": "Month",
+      "totalWorkingDays": "Total working days",
+      "totalWorkingHours": "Total working hours",
+      "listOfWorkingDays": "List of working days",
+      "goCallendar": "Go to calendar",
+      "info": "If everything is ok, you can generate your callendar now. Just click on the button below ;)",
+      "justDoIt": "Just do it!"
     }
   }
 }

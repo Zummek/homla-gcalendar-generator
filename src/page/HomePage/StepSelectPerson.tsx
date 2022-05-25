@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as xlsxReader from 'xlsx';
 import { RootState } from '../../store/rootReducer';
-import { setFirstPersonKey, setSelectedPerson } from './creatorSlice';
+import { nextNColumn } from '../../utils/xlsx';
+import { setFirstPerson, setSelectedPerson, XlsPerson } from './creatorSlice';
 import { StepContainer } from './styled';
 
 interface StepSelectPersonProps {
@@ -12,8 +13,8 @@ interface StepSelectPersonProps {
 }
 
 const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
-  const [persons, setPersons] = useState<string[]>([]);
-  const [selectedPersonValue, setSelectedPersonValue] = useState<string | null>(null);
+  const [persons, setPersons] = useState<XlsPerson[]>([]);
+  const [selectedPersonValue, setSelectedPersonValue] = useState<XlsPerson | null>(null);
   const { file, selectedPerson } = useSelector((state: RootState) => state.creatorSlice);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -25,20 +26,19 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
 
   useEffect(() => {
     if (selectedPerson && persons.length) {
-      if (persons.includes(selectedPerson)) setSelectedPersonValue(selectedPerson);
-      else setSelectedPersonValue(null);
+      if (persons.find((person) => person.name === selectedPerson.name)) {
+        setSelectedPersonValue(selectedPerson);
+        allowNextStep();
+      } else setSelectedPersonValue(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPerson, persons]);
 
-  const onSelect = (selected: string | null) => {
+  const onSelect = (selected: XlsPerson | null) => {
     dispatch(setSelectedPerson(selected));
     setSelectedPersonValue(selected);
 
     if (selected) allowNextStep();
-  };
-
-  const nextNCharacter = (char: string, n: number) => {
-    return String.fromCharCode(char.charCodeAt(0) + n);
   };
 
   const readPersonsFromFile = async () => {
@@ -51,7 +51,7 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
     const workbook = xlsxReader.read(data);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     let personRowNo = 0;
-    const foundPersons = [];
+    const foundPersons: XlsPerson[] = [];
 
     // find rowNo by wordKey in first column
     for (let rowNo = 1; rowNo < 100; rowNo++) {
@@ -61,15 +61,25 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
       }
     }
 
-    dispatch(setFirstPersonKey(firstPersonColumn + personRowNo));
+    dispatch(
+      setFirstPerson({
+        row: personRowNo,
+        column: firstPersonColumn
+      })
+    );
 
     // find all persons in next columns
     let personColumn = firstPersonColumn;
     while (true) {
-      const person = sheet[personColumn + personRowNo]?.v;
-      if (person) foundPersons.push(person);
+      const person = {
+        name: sheet[personColumn + personRowNo]?.v,
+        row: personRowNo,
+        column: personColumn
+      };
+      console.log({ person });
+      if (person.name) foundPersons.push(person);
       else break;
-      personColumn = nextNCharacter(personColumn, personsSeparatedByColumnAmount);
+      personColumn = nextNColumn(personColumn, personsSeparatedByColumnAmount);
     }
 
     setPersons(foundPersons);
@@ -84,11 +94,11 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
         <Autocomplete
           autoComplete
           autoHighlight
-          autoSelect
           options={persons}
-          renderInput={(params) => <TextField {...params} label={t('home.step2.myNameIs')} />}
+          renderInput={(params) => <TextField {...params} label={t('home.myNameIs')} />}
           onChange={(event, value) => onSelect(value)}
           value={selectedPersonValue}
+          getOptionLabel={(option) => option.name}
         />
       </Box>
     </StepContainer>

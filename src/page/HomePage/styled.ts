@@ -64,6 +64,7 @@ export const StepContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 25px;
 `;
 
@@ -71,4 +72,27 @@ export const InfoPaper = styled(Paper)`
   padding: 15px;
   max-width: 450px;
   margin: 0 auto;
+`;
+
+export const StepPaper = styled(Paper)`
+  width: fit-content;
+  padding: 15px;
+  width: 300px;
+  margin: 25px;
+  max-height: 500px;
+  overflow-y: auto;
+`;
+
+export const WorkingDayContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const GenerateButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px 0 10px;
 `;

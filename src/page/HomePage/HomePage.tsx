@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Footer from '../../component/Footer';
 import StepSelectPerson from './StepSelectPerson';
+import StepSummary from './StepSummary';
 import StepUploadFile from './StepUploadFile';
 import { StepperContainer } from './styled';
 
@@ -54,6 +55,7 @@ const HomePage = () => {
 
         {activeStep === 0 && <StepUploadFile allowNextStep={() => allowNextStep(1)} />}
         {activeStep === 1 && <StepSelectPerson allowNextStep={() => allowNextStep(2)} />}
+        {activeStep === 2 && <StepSummary />}
 
         <Box textAlign="center">
           {isPreviousStepAvailable() && (
