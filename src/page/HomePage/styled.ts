@@ -13,7 +13,7 @@ interface UploaderContainerThemedProps extends UploaderContainerProps {
   theme: Palette;
 }
 
-const getColor = (props: UploaderContainerThemedProps) => {
+const getColor = (props: UploaderContainerThemedProps, hover: boolean) => {
   if (props.isDragAccept) {
     return props.theme.actions.positive;
   }
@@ -26,7 +26,7 @@ const getColor = (props: UploaderContainerThemedProps) => {
   if (props.isFocused) {
     return props.theme.actions.focused;
   }
-  return props.theme.text.placeholder;
+  return hover ? props.theme.text.low : props.theme.text.placeholder;
 };
 
 export const UploaderWrapper = styled.div`
@@ -42,12 +42,15 @@ export const UploaderContainer = styled.div<UploaderContainerProps>`
   padding: 20px;
   border-width: 2px;
   border-radius: 5px;
-  border-color: ${(props) => getColor(props)};
+  border-color: ${(props) => getColor(props, false)};
+  border-opacity: 0.5;
   border-style: dashed;
   background-color: ${({ theme }) => theme.background.darker};
   color: ${({ theme }) => theme.text.low};
   outline: none;
   transition: border 0.24s ease-in-out;
+  &:hover {
+    border-color: ${(props) => getColor(props, true)};
 `;
 
 export const StepperContainer = styled(Box)`

@@ -17,7 +17,8 @@
       "beerLicenseInfo": "This app is licensed under the Beerware license :) If you like this app, you can buy me a beer in return."
     },
     "step2": {
-      "selectYourself": "Select yourself"
+      "selectYourself": "Select yourself",
+      "myNameIs": "My name is"
     }
   }
 }
