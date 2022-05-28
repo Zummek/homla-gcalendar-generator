@@ -1,5 +1,6 @@
-import { Button, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import moment from 'moment';
+import 'moment/locale/pl';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -8,19 +9,21 @@ import DataField from '../../component/DataField';
 import { Column, Row } from '../../component/Flex';
 import Separator from '../../component/Separator';
 import { RootState } from '../../store/rootReducer';
+import { generateICS } from '../../utils/ics';
 import { capitalizeOnlyFirstLetter } from '../../utils/text';
 import { nextNColumn } from '../../utils/xlsx';
 import {
   AppleCalendarNotice,
   CustomA,
   GenerateButtonContainer,
+  InputsContainer,
   ScrollableBox,
   StepContainer,
   StepPaper,
   WorkingDayContainer
 } from './styled';
 
-interface WorkingDay {
+export interface WorkingDay {
   dayNo: number;
   dayOfWeek: string;
   start: string;
@@ -29,7 +32,12 @@ interface WorkingDay {
 }
 
 const StepSummary = () => {
-  const [month, setMonth] = useState<string | null>(null);
+  const [year, setYear] = useState(moment().year());
+  const [month, setMonth] = useState<number | null>(null);
+  const [error, setError] = useState({
+    year: false,
+    month: false
+  });
   const [totalWorkingDays, setTotalWorkingDays] = useState<number | null>(null);
   const [totalWorkingHours, setTotalWorkingHours] = useState<number | null>(null);
   const [workingDays, setWorkingDays] = useState<WorkingDay[]>([]);
@@ -44,6 +52,8 @@ const StepSummary = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
+  const formatedMonth = month ? moment(month, 'MM').format('MMMM') : '';
+
   const readMonthFromFile = async () => {
     const data = await file?.arrayBuffer();
     const workbook = xlsxReader.read(data);
@@ -53,7 +63,10 @@ const StepSummary = () => {
       const monthRowNo = firstPerson?.row - 2;
       const monthValue = sheet[`${monthColumn}${monthRowNo}`]?.v;
 
-      if (monthValue) setMonth(monthValue);
+      moment.locale('pl');
+      const month = moment(capitalizeOnlyFirstLetter(monthValue), 'MMMM').format('M');
+
+      if (monthValue && month) setMonth(+month);
     }
   };
 
@@ -95,10 +108,30 @@ const StepSummary = () => {
   };
 
   const generateCalendar = () => {
-    console.log('generate');
+    if (!year || isNaN(year) || !month || isNaN(month)) {
+      setError({
+        year: !year || isNaN(year),
+        month: !month || isNaN(month)
+      });
+    } else {
+      setError({
+        year: false,
+        month: false
+      });
+      if (selectedPerson) {
+        const icsCalendarString = generateICS(workingDays, month, year);
+        const blob = new Blob([icsCalendarString], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Homla ${capitalizeOnlyFirstLetter(selectedPerson.name)} ${capitalizeOnlyFirstLetter(
+          formatedMonth
+        )}.ics`;
+        document.body.appendChild(link);
+        link.click();
+      }
+    }
   };
-
-  const capitalizedMonth = capitalizeOnlyFirstLetter(month);
 
   const renderWorkingDay = (workingDay: WorkingDay, separator: boolean) => (
     <>
@@ -106,7 +139,7 @@ const StepSummary = () => {
       <WorkingDayContainer key={workingDay.dayNo}>
         <Column alignItems="center">
           <Typography variant="caption">
-            {workingDay.dayNo} {capitalizedMonth}
+            {workingDay.dayNo} {formatedMonth}
           </Typography>
           <Typography variant="caption">{capitalizeOnlyFirstLetter(workingDay.dayOfWeek)}</Typography>
         </Column>
@@ -125,16 +158,34 @@ const StepSummary = () => {
             <Typography variant="h5">{t('home.summary')}</Typography>
             <Row>
               <DataField flex label={t('home.myNameIs')} value={selectedPerson?.name || ''} />
-              <DataField flex capitalize label={t('home.step3.month')} value={month} />
+              <DataField flex capitalize label={t('home.step3.month')} value={formatedMonth} />
             </Row>
             <Row>
               <DataField flex capitalize label={t('home.step3.totalWorkingDays')} value={totalWorkingDays} />
               <DataField flex capitalize label={t('home.step3.totalWorkingHours')} value={totalWorkingHours} />
             </Row>
+            <InputsContainer>
+              <TextField
+                label={t('home.step3.generateForYear')}
+                value={!year || isNaN(year) ? '' : String(year)}
+                onChange={(e) => setYear(+e.target.value)}
+                variant="standard"
+                inputMode="decimal"
+                error={error.year}
+              />
+              <TextField
+                label={t('home.step3.generateForMonth')}
+                value={!month || isNaN(month) ? '' : String(month)}
+                onChange={(e) => setMonth(+e.target.value)}
+                variant="standard"
+                inputMode="decimal"
+                error={error.month}
+              />
+            </InputsContainer>
           </StepPaper>
           <StepPaper>
             <Typography variant="h5" marginBottom={2}>
-              {t('home.step3.goCallendar')}
+              {t('home.step3.generateCalendar')}
             </Typography>
             <Typography variant="body2" align="center">
               {t('home.step3.info')}

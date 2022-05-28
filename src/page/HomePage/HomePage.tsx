@@ -38,7 +38,7 @@ const HomePage = () => {
         <title>Home Page</title>
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ minHeight: '95vh' }}>
         <StepperContainer>
           <Stepper activeStep={activeStep}>
             <Step key="upload-file">

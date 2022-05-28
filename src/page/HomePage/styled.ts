@@ -114,3 +114,12 @@ export const AppleCalendarNotice = styled.div`
   color: ${({ theme }) => theme.text.low};
   text-align: center;
 `;
+
+export const InputsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+  gap: 25px;
+`;
