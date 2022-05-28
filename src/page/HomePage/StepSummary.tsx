@@ -194,7 +194,7 @@ const StepSummary = () => {
             </Typography>
             <GenerateButtonContainer>
               <Button variant="contained" style={{ textTransform: 'none' }} onClick={generateCalendar}>
-                {t('home.step3.justDoIt')}
+                {t('home.step3.justDownload')}
               </Button>
             </GenerateButtonContainer>
             <Typography variant="subtitle1" align="left">
