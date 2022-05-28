@@ -26,8 +26,13 @@
       "totalWorkingHours": "Total working hours",
       "listOfWorkingDays": "List of working days",
       "goCallendar": "Go to calendar",
-      "info": "If everything is ok, you can generate your callendar now. Just click on the button below ;)",
-      "justDoIt": "Just do it!"
+      "info": "If everything is ok, you can download your callendar now. Just click on the button below ;)",
+      "justDoIt": "Just do it!",
+      "importToCalendar": "Import to calendar",
+      "importToCalendarStep1": "1. Open your ",
+      "importToCalendarStep2": "2. Select the downloaded file and your calendar to which events will be added",
+      "importToCalendarStep3": "3. Click 'Import' button and enjoy your calendar",
+      "appleInfo": "Notice: If you are using Apple calendar you can import your events to your calendar but I don't know how to do it :)"
     }
   }
 }

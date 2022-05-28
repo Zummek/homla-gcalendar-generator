@@ -10,7 +10,15 @@ import Separator from '../../component/Separator';
 import { RootState } from '../../store/rootReducer';
 import { capitalizeOnlyFirstLetter } from '../../utils/text';
 import { nextNColumn } from '../../utils/xlsx';
-import { GenerateButtonContainer, StepContainer, StepPaper, WorkingDayContainer } from './styled';
+import {
+  AppleCalendarNotice,
+  CustomA,
+  GenerateButtonContainer,
+  ScrollableBox,
+  StepContainer,
+  StepPaper,
+  WorkingDayContainer
+} from './styled';
 
 interface WorkingDay {
   dayNo: number;
@@ -86,7 +94,9 @@ const StepSummary = () => {
     setTotalWorkingHours(tempWorkingDays.reduce((acc, curr) => acc + curr.numberOfHours, 0));
   };
 
-  const generateCalendar = () => {};
+  const generateCalendar = () => {
+    console.log('generate');
+  };
 
   const capitalizedMonth = capitalizeOnlyFirstLetter(month);
 
@@ -109,7 +119,7 @@ const StepSummary = () => {
 
   return (
     <StepContainer>
-      <Row wrap>
+      <Row wrap justifyContent="center">
         <Column>
           <StepPaper>
             <Typography variant="h5">{t('home.summary')}</Typography>
@@ -134,6 +144,23 @@ const StepSummary = () => {
                 {t('home.step3.justDoIt')}
               </Button>
             </GenerateButtonContainer>
+            <Typography variant="subtitle1" align="left">
+              {t('home.step3.importToCalendar')}
+            </Typography>
+            <Typography variant="body2" align="left">
+              {t('home.step3.importToCalendarStep1')}{' '}
+              <CustomA
+                href="https://calendar.google.com/calendar/u/0/r/settings/export"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Google Calendar settings / import
+              </CustomA>
+              . <br />
+              {t('home.step3.importToCalendarStep2')} <br />
+              {t('home.step3.importToCalendarStep3')}
+            </Typography>
+            <AppleCalendarNotice>{t('home.step3.appleInfo')}</AppleCalendarNotice>
           </StepPaper>
         </Column>
         <Column>
@@ -141,7 +168,9 @@ const StepSummary = () => {
             <Typography variant="h5" marginBottom={2}>
               {t('home.step3.listOfWorkingDays')}
             </Typography>
-            {workingDays.map((workingDay, index) => renderWorkingDay(workingDay, index !== 0))}
+            <ScrollableBox>
+              {workingDays.map((workingDay, index) => renderWorkingDay(workingDay, index !== 0))}
+            </ScrollableBox>
           </StepPaper>
         </Column>
       </Row>

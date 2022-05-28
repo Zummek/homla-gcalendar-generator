@@ -77,10 +77,21 @@ export const InfoPaper = styled(Paper)`
 export const StepPaper = styled(Paper)`
   width: fit-content;
   padding: 15px;
-  width: 300px;
+  width: 350px;
   margin: 25px;
-  max-height: 500px;
+`;
+
+export const ScrollableBox = styled(Box)`
   overflow-y: auto;
+  max-height: 620px;
+`;
+
+export const CustomA = styled.a`
+  color: ${({ theme }) => theme.text.primary};
+  &:hover {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.text.secondary};
+  }
 `;
 
 export const WorkingDayContainer = styled.div`
@@ -94,5 +105,12 @@ export const GenerateButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 20px 0 10px;
+  margin: 20px 10px;
+`;
+
+export const AppleCalendarNotice = styled.div`
+  margin: 20px;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.text.low};
+  text-align: center;
 `;

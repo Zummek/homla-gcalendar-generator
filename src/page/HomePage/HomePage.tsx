@@ -38,7 +38,7 @@ const HomePage = () => {
         <title>Home Page</title>
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
-      <Container maxWidth="md" style={{ height: '100vh' }}>
+      <Container maxWidth="md">
         <StepperContainer>
           <Stepper activeStep={activeStep}>
             <Step key="upload-file">
@@ -57,7 +57,7 @@ const HomePage = () => {
         {activeStep === 1 && <StepSelectPerson allowNextStep={() => allowNextStep(2)} />}
         {activeStep === 2 && <StepSummary />}
 
-        <Box textAlign="center">
+        <Box textAlign="center" marginBottom={5}>
           {isPreviousStepAvailable() && (
             <Button variant="contained" style={{ marginRight: 25 }} onClick={previousStep}>
               {t('common.back')}
