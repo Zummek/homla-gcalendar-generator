@@ -171,6 +171,7 @@ const StepSummary = () => {
                 onChange={(e) => setYear(+e.target.value)}
                 variant="standard"
                 inputMode="decimal"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 error={error.year}
               />
               <TextField
@@ -179,6 +180,7 @@ const StepSummary = () => {
                 onChange={(e) => setMonth(+e.target.value)}
                 variant="standard"
                 inputMode="decimal"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 error={error.month}
               />
             </InputsContainer>
