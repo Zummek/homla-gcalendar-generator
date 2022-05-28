@@ -1,6 +1,7 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../store/rootReducer';
 import { selectTheme, selectThemeKey } from './theme/slice/selectors';
 
 interface MaterialThemeProviderProps {
@@ -8,8 +9,12 @@ interface MaterialThemeProviderProps {
 }
 
 const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
-  const themeMode = useSelector(selectThemeKey);
-  const themeColors = useSelector(selectTheme);
+  const state = useSelector((state: RootState) => state);
+  const themeMode = selectThemeKey(state);
+  const themeColors = selectTheme(state);
+
+  console.log({ state });
+  console.log({ themeMode });
 
   const theme = React.useMemo(
     () =>
@@ -21,6 +26,8 @@ const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
       }),
     [themeMode, themeColors]
   );
+
+  console.log({ theme });
 
   return <ThemeProvider theme={theme}>{React.Children.only(props.children)}</ThemeProvider>;
 };

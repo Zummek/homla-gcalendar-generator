@@ -15,7 +15,7 @@ interface StepSelectPersonProps {
 const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
   const [persons, setPersons] = useState<XlsPerson[]>([]);
   const [selectedPersonValue, setSelectedPersonValue] = useState<XlsPerson | null>(null);
-  const { file, selectedPerson } = useSelector((state: RootState) => state.creatorSlice);
+  const { file, selectedPerson } = useSelector((state: RootState) => state.creator);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

@@ -11,6 +11,7 @@ export const FooterWrapper = styled.footer`
 `;
 
 export const Credit = styled.a`
+  text-align: right;
   color: ${({ theme }) => theme.text.low};
   line-height: 1;
   text-decoration: none;

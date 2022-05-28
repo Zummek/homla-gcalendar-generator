@@ -41,7 +41,7 @@ const StepSummary = () => {
   const [totalWorkingDays, setTotalWorkingDays] = useState<number | null>(null);
   const [totalWorkingHours, setTotalWorkingHours] = useState<number | null>(null);
   const [workingDays, setWorkingDays] = useState<WorkingDay[]>([]);
-  const { file, selectedPerson, firstPerson } = useSelector((state: RootState) => state.creatorSlice);
+  const { file, selectedPerson, firstPerson } = useSelector((state: RootState) => state.creator);
   const { t } = useTranslation();
 
   useEffect(() => {

@@ -90,7 +90,7 @@ export const CustomA = styled.a`
   color: ${({ theme }) => theme.text.primary};
   &:hover {
     text-decoration: underline;
-    color: ${({ theme }) => theme.text.secondary};
+    color: ${({ theme }) => theme.primary.main};
   }
 `;
 

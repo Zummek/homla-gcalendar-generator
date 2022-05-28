@@ -1,14 +1,14 @@
 const lightPalette = {
   primary: {
-    main: '#003566'
+    main: '#9ab2f5'
   },
   secondary: {
-    main: '#35777a'
+    main: '#d0ecf5'
   },
   text: {
-    primary: '#3a3433',
+    primary: '#121111',
     secondary: 'rgba(58, 52, 51, 0.7)',
-    low: 'rgb(200, 200, 200)',
+    low: 'rgb(100, 100, 100)',
     placeholder: 'rgba(0,0,0,0.2)'
   },
   background: {
@@ -26,7 +26,7 @@ const lightPalette = {
   actions: {
     negative: '#ff0000',
     positive: '#00ff00',
-    positive40: 'rgba(0, 255, 0, 0.4)',
+    positive40: 'rgba(0, 200, 0)',
     warning: '#ffa500',
     focused: '#2196f3'
   }

@@ -12,6 +12,7 @@ export const selectTheme = createSelector([(state: RootState) => state.theme || 
 });
 
 export const selectThemeKey = createSelector([(state: RootState) => state.theme || initialState], (theme) => {
+  console.log('selectThemeKey', theme);
   if (theme.selected === 'system') {
     return isSystemDark ? 'dark' : 'light';
   }

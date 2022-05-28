@@ -3,6 +3,9 @@
     "next": "Next",
     "back": "Back"
   },
+  "footer": {
+    "darkMode": "Dark Mode"
+  },
   "home": {
     "uploadWorkSchedule": "Upload work schedule",
     "chooseYourself": "Choose yourself",

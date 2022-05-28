@@ -7,8 +7,8 @@ import creatorSlice from '../page/HomePage/creatorSlice';
 import themeSlice from '../styles/theme/slice';
 
 const rootReducer = combineReducers({
-  creatorSlice,
-  themeSlice
+  creator: creatorSlice,
+  theme: themeSlice
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
