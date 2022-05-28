@@ -3,7 +3,7 @@ import { Column, Row } from '../Flex';
 import { Credit, FooterWrapper } from './styled';
 
 interface FooterProps {
-  credit: {
+  credit?: {
     text: string;
     href: string;
     title: string;
@@ -17,12 +17,18 @@ const Footer = ({ credit }: FooterProps) => {
     <FooterWrapper>
       <Row justifyContent="space-between">
         <Column justifyContent="center">
-          <Typography variant="caption">Copyright © {year} Adam Jędryka.</Typography>
+          <Typography variant="caption" lineHeight={1.2}>
+            Copyright © {year} Adam Jędryka.
+          </Typography>
         </Column>
         <Column justifyContent="center">
-          <Credit href={credit.href} title={credit.title}>
-            <Typography variant="caption">{credit.text}</Typography>
-          </Credit>
+          {credit && (
+            <Credit href={credit.href} title={credit.title}>
+              <Typography variant="caption" lineHeight={1.2}>
+                {credit.text}
+              </Typography>
+            </Credit>
+          )}
         </Column>
       </Row>
     </FooterWrapper>

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Step, StepLabel, Stepper } from '@mui/material';
+import { Box, Button, Container, Step, StepLabel, Stepper, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Footer from '../../component/Footer';
@@ -32,15 +32,18 @@ const HomePage = () => {
     setActiveStep(activeStep - 1);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isSmallScreen = useMediaQuery((theme: any) => theme.breakpoints.down('sm'));
+
   return (
     <>
       {/* <Helmet>
         <title>Home Page</title>
         <meta name="description" content="A React Boilerplate application homepage" />
       </Helmet> */}
-      <Container maxWidth="md" style={{ minHeight: '95vh' }}>
+      <Container maxWidth="md" style={{ minHeight: 'calc(100vh - 35px)' }}>
         <StepperContainer>
-          <Stepper activeStep={activeStep}>
+          <Stepper activeStep={activeStep} alternativeLabel={isSmallScreen}>
             <Step key="upload-file">
               <StepLabel>{t('home.uploadWorkSchedule')}</StepLabel>
             </Step>
@@ -63,17 +66,23 @@ const HomePage = () => {
               {t('common.back')}
             </Button>
           )}
-          <Button variant="contained" disabled={!isNextStepAvailable()} onClick={nextStep}>
-            {t('common.next')}
-          </Button>
+          {activeStep !== 2 && (
+            <Button variant="contained" disabled={!isNextStepAvailable()} onClick={nextStep}>
+              {t('common.next')}
+            </Button>
+          )}
         </Box>
       </Container>
       <Footer
-        credit={{
-          href: 'https://www.flaticon.com/free-icons/beer',
-          title: 'beer icons',
-          text: 'Beer icons created by Freepik - Flaticon'
-        }}
+        credit={
+          activeStep === 0
+            ? {
+                href: 'https://www.flaticon.com/free-icons/beer',
+                title: 'beer icons',
+                text: 'Beer icons created by Freepik - Flaticon'
+              }
+            : undefined
+        }
       />
     </>
   );

@@ -12,6 +12,7 @@ export const FooterWrapper = styled.footer`
 
 export const Credit = styled.a`
   color: ${({ theme }) => theme.text.low};
+  line-height: 1;
   text-decoration: none;
   &:hover {
     color: ${({ theme }) => theme.text.primary};
