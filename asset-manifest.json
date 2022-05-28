@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/homla-gcalendar-generator/static/css/main.39a41183.css",
-    "main.js": "/homla-gcalendar-generator/static/js/main.df1630f4.js",
+    "main.js": "/homla-gcalendar-generator/static/js/main.7c6cbd9a.js",
     "static/media/beer.png": "/homla-gcalendar-generator/static/media/beer.7173f19f3e017bd80f5b.png",
     "index.html": "/homla-gcalendar-generator/index.html",
     "main.39a41183.css.map": "/homla-gcalendar-generator/static/css/main.39a41183.css.map",
-    "main.df1630f4.js.map": "/homla-gcalendar-generator/static/js/main.df1630f4.js.map"
+    "main.7c6cbd9a.js.map": "/homla-gcalendar-generator/static/js/main.7c6cbd9a.js.map"
   },
   "entrypoints": [
     "static/css/main.39a41183.css",
-    "static/js/main.df1630f4.js"
+    "static/js/main.7c6cbd9a.js"
   ]
 }
