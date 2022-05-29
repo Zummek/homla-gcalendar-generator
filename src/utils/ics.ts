@@ -14,12 +14,12 @@ interface Event {
 
 export const generateICS = (workingDays: WorkingDay[], month: number, year: number): string => {
   const currentDateTemplate = (day: number, time: string) =>
-    moment(`${year}.${month}.${day} ${time}`, 'YYYY.M.D HH:mm').format('YYYYMMDD\\THHmmss\\Z');
+    moment(`${year}.${month}.${day} ${time}`, 'YYYY.M.D HH:mm').utc().format('YYYYMMDD\\THHmmss\\Z');
 
   const events: Event[] = workingDays.map((workingDay) => {
     const start = currentDateTemplate(workingDay.dayNo, workingDay.start);
     const end = currentDateTemplate(workingDay.dayNo, workingDay.end);
-    const created = moment().format('YYYYMMDD\\THHmmss\\Z');
+    const created = moment().utc().format('YYYYMMDD\\THHmmss\\Z');
     return {
       start,
       end,
@@ -34,7 +34,7 @@ export const generateICS = (workingDays: WorkingDay[], month: number, year: numb
   return calendarTemplate(events);
 };
 
-const generateEvents = (event: Event) => `BEGIN:VEVENT
+const generateEvent = (event: Event) => `BEGIN:VEVENT
 DTSTART:${event.start}
 DTEND:${event.end}
 DTSTAMP:${event.start}
@@ -58,6 +58,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Homla calendar
 X-WR-TIMEZONE:Europe/Warsaw
 TZID:Europe/Warsaw
-${events.map(generateEvents).join('')}
+${events.map(generateEvent).join('')}
 END:VCALENDAR
 `;
