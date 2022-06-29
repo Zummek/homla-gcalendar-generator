@@ -24,11 +24,13 @@
       "selectYourself": "Select yourself"
     },
     "step3": {
-      "month": "Month",
+      "monthFromFile": "Month from file",
       "totalWorkingDays": "Total working days",
       "totalWorkingHours": "Total working hours",
       "listOfWorkingDays": "List of working days",
       "generateCalendar": "Generate calendar",
+      "eventTitle": "Event title in calendar",
+      "work": "Praca",
       "info": "If everything is ok, you can download your callendar now. Just click on the button below ;)",
       "justDownload": "Just download!",
       "importToCalendar": "Import to calendar",
@@ -37,7 +39,9 @@
       "importToCalendarStep3": "3. Click 'Import' button and enjoy your calendar",
       "appleInfo": "Notice: If you are using Apple calendar you can import your events to your calendar but I don't know how to do it :)",
       "generateForYear": "Generate for year",
-      "generateForMonth": "Generate for month"
+      "generateForMonth": "Generate for month",
+      "selectCurrentDate": "Select current date",
+      "min3char": "Min 3 characters"
     }
   }
 }

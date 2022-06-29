@@ -24,8 +24,6 @@ const Footer = ({ credit }: FooterProps) => {
     dispatch(changeTheme(mode === 'dark' ? 'light' : 'dark'));
   };
 
-  console.log(mode);
-
   return (
     <FooterWrapper>
       <Row justifyContent="space-between">

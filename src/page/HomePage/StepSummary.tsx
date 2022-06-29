@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'moment/locale/pl';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as xlsxReader from 'xlsx';
 import DataField from '../../component/DataField';
 import { Column, Row } from '../../component/Flex';
@@ -12,6 +12,7 @@ import { RootState } from '../../store/rootReducer';
 import { generateICS } from '../../utils/ics';
 import { capitalizeOnlyFirstLetter } from '../../utils/text';
 import { nextNColumn } from '../../utils/xlsx';
+import { setEventTitle } from './creatorSlice';
 import {
   AppleCalendarNotice,
   CustomA,
@@ -32,17 +33,20 @@ export interface WorkingDay {
 }
 
 const StepSummary = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { file, selectedPerson, firstPerson, eventTitle } = useSelector((state: RootState) => state.creator);
   const [year, setYear] = useState(moment().year());
   const [month, setMonth] = useState<number | null>(null);
+  const [monthFromFile, setMonthFromFile] = useState<number | null>(null);
   const [error, setError] = useState({
     year: false,
-    month: false
+    month: false,
+    eventTitle: false
   });
   const [totalWorkingDays, setTotalWorkingDays] = useState<number | null>(null);
   const [totalWorkingHours, setTotalWorkingHours] = useState<number | null>(null);
   const [workingDays, setWorkingDays] = useState<WorkingDay[]>([]);
-  const { file, selectedPerson, firstPerson } = useSelector((state: RootState) => state.creator);
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (file) {
@@ -52,7 +56,7 @@ const StepSummary = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
-  const formatedMonth = month ? moment(month, 'MM').format('MMMM') : '';
+  const formatMonth = (month: number | null) => (monthFromFile ? moment(month, 'MM').format('MMMM') : '');
 
   const readMonthFromFile = async () => {
     const data = await file?.arrayBuffer();
@@ -61,13 +65,20 @@ const StepSummary = () => {
     const monthColumn = 'A';
     if (firstPerson?.row) {
       const monthRowNo = firstPerson?.row - 2;
-      const monthValue = sheet[`${monthColumn}${monthRowNo}`]?.v;
+      const monthValue = sheet[`${monthColumn}${monthRowNo}`]?.w;
 
       moment.locale('pl');
       const month = moment(capitalizeOnlyFirstLetter(monthValue), 'MMMM').format('M');
 
-      if (monthValue && month) setMonth(+month);
+      if (monthValue && month) {
+        setMonth(+month);
+        setMonthFromFile(+month);
+      }
     }
+  };
+
+  const onEventTitleChange = (title: string) => {
+    dispatch(setEventTitle(title));
   };
 
   const readWorkingDaysFromFile = async () => {
@@ -83,15 +94,27 @@ const StepSummary = () => {
       let row = selectedPerson?.row + 2;
 
       do {
-        const dayOfWeek = sheet[`${dayOfWeekColumn}${row}`]?.v;
-        const dayNo = +sheet[`${dayNoColumn}${row}`]?.v;
+        const dayOfWeek = sheet[`${dayOfWeekColumn}${row}`]?.w;
+        const dayNo = +sheet[`${dayNoColumn}${row}`]?.w;
         const start = moment
-          .utc(moment.duration(+sheet[`${selectedPerson.column}${row}`]?.v, 'hours').asMilliseconds())
+          .utc(moment.duration(+sheet[`${selectedPerson.column}${row}`]?.w, 'hours').asMilliseconds())
           .format('HH:mm');
         const end = moment
-          .utc(moment.duration(+sheet[`${nextNColumn(selectedPerson.column, 1)}${row}`]?.v, 'hours').asMilliseconds())
+          .utc(moment.duration(+sheet[`${nextNColumn(selectedPerson.column, 1)}${row}`]?.w, 'hours').asMilliseconds())
           .format('HH:mm');
-        const numberOfHours = +sheet[`${nextNColumn(selectedPerson.column, 2)}${row}`]?.v;
+        const numberOfHours = +sheet[`${nextNColumn(selectedPerson.column, 2)}${row}`]?.w;
+
+        console.log({
+          dayOfWeek,
+          dayNo,
+          row,
+          column: selectedPerson.column,
+          start,
+          startRaw: sheet[`${selectedPerson.column}${row}`],
+          end,
+          endRaw: sheet[`${nextNColumn(selectedPerson.column, 1)}${row}`],
+          numberOfHours
+        });
 
         if (dayOfWeek && dayNo && start && end && numberOfHours && numberOfHours !== 0) {
           tempWorkingDays.push({ dayNo, dayOfWeek, start, end, numberOfHours });
@@ -99,7 +122,7 @@ const StepSummary = () => {
 
         row++;
         attemptsNumber++;
-      } while (attemptsNumber < 35 && (tempWorkingDays.length === 0 || !isNaN(sheet[`${dayNoColumn}${row}`]?.v)));
+      } while (attemptsNumber < 35 && (tempWorkingDays.length === 0 || !isNaN(sheet[`${dayNoColumn}${row}`]?.w)));
     }
 
     setWorkingDays(tempWorkingDays);
@@ -108,24 +131,26 @@ const StepSummary = () => {
   };
 
   const generateCalendar = () => {
-    if (!year || isNaN(year) || !month || isNaN(month)) {
+    if (!year || isNaN(year) || !month || isNaN(month) || eventTitle.length < 3) {
       setError({
         year: !year || isNaN(year),
-        month: !month || isNaN(month)
+        month: !month || isNaN(month),
+        eventTitle: eventTitle.length < 3
       });
     } else {
       setError({
         year: false,
-        month: false
+        month: false,
+        eventTitle: false
       });
       if (selectedPerson) {
-        const icsCalendarString = generateICS(workingDays, month, year);
+        const icsCalendarString = generateICS(workingDays, month, year, eventTitle);
         const blob = new Blob([icsCalendarString], { type: 'text/calendar;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `Homla ${capitalizeOnlyFirstLetter(selectedPerson.name)} ${capitalizeOnlyFirstLetter(
-          formatedMonth
+        link.download = `${eventTitle} ${capitalizeOnlyFirstLetter(selectedPerson.name)} ${capitalizeOnlyFirstLetter(
+          formatMonth(month)
         )}.ics`;
         document.body.appendChild(link);
         link.click();
@@ -139,7 +164,7 @@ const StepSummary = () => {
       <WorkingDayContainer key={workingDay.dayNo}>
         <Column alignItems="center">
           <Typography variant="caption">
-            {workingDay.dayNo} {formatedMonth}
+            {workingDay.dayNo} {formatMonth(month)}
           </Typography>
           <Typography variant="caption">{capitalizeOnlyFirstLetter(workingDay.dayOfWeek)}</Typography>
         </Column>
@@ -158,7 +183,7 @@ const StepSummary = () => {
             <Typography variant="h5">{t('home.summary')}</Typography>
             <Row>
               <DataField flex label={t('home.myNameIs')} value={selectedPerson?.name || ''} />
-              <DataField flex capitalize label={t('home.step3.month')} value={formatedMonth} />
+              <DataField flex capitalize label={t('home.step3.monthFromFile')} value={formatMonth(monthFromFile)} />
             </Row>
             <Row>
               <DataField flex capitalize label={t('home.step3.totalWorkingDays')} value={totalWorkingDays} />
@@ -182,6 +207,16 @@ const StepSummary = () => {
                 inputMode="decimal"
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 error={error.month}
+              />
+            </InputsContainer>
+            <InputsContainer oneItem>
+              <TextField
+                label={t('home.step3.eventTitle')}
+                value={eventTitle}
+                onChange={(e) => onEventTitleChange(e.target.value)}
+                variant="standard"
+                error={error.eventTitle}
+                helperText={t('home.step3.min3char')}
               />
             </InputsContainer>
           </StepPaper>

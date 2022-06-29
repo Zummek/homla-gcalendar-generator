@@ -55,7 +55,7 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
 
     // find rowNo by wordKey in first column
     for (let rowNo = 1; rowNo < 100; rowNo++) {
-      if (sheet['A' + rowNo] && sheet['A' + rowNo].v === wordKey) {
+      if (sheet['A' + rowNo] && sheet['A' + rowNo].w === wordKey) {
         personRowNo = rowNo;
         break;
       }
@@ -72,11 +72,11 @@ const StepSelectPerson = ({ allowNextStep }: StepSelectPersonProps) => {
     let personColumn = firstPersonColumn;
     while (true) {
       const person = {
-        name: sheet[personColumn + personRowNo]?.v,
+        name: sheet[personColumn + personRowNo]?.w,
         row: personRowNo,
         column: personColumn
       };
-      console.log({ person });
+
       if (person.name) foundPersons.push(person);
       else break;
       personColumn = nextNColumn(personColumn, personsSeparatedByColumnAmount);

@@ -12,7 +12,7 @@ interface Event {
   uuid: string;
 }
 
-export const generateICS = (workingDays: WorkingDay[], month: number, year: number): string => {
+export const generateICS = (workingDays: WorkingDay[], month: number, year: number, eventTitle: string): string => {
   const currentDateTemplate = (day: number, time: string) =>
     moment(`${year}.${month}.${day} ${time}`, 'YYYY.M.D HH:mm').utc().format('YYYYMMDD\\THHmmss\\Z');
 
@@ -23,7 +23,7 @@ export const generateICS = (workingDays: WorkingDay[], month: number, year: numb
     return {
       start,
       end,
-      summary: `Work Homla`,
+      summary: eventTitle,
       description: `${workingDay.dayOfWeek} ${workingDay.dayNo}`,
       location: 'Homla',
       created,

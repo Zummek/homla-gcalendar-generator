@@ -13,9 +13,6 @@ const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
   const themeMode = selectThemeKey(state);
   const themeColors = selectTheme(state);
 
-  console.log({ state });
-  console.log({ themeMode });
-
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -26,8 +23,6 @@ const MaterialThemeProvider: React.FC<MaterialThemeProviderProps> = (props) => {
       }),
     [themeMode, themeColors]
   );
-
-  console.log({ theme });
 
   return <ThemeProvider theme={theme}>{React.Children.only(props.children)}</ThemeProvider>;
 };

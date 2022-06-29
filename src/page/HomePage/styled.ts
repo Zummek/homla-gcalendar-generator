@@ -115,11 +115,14 @@ export const AppleCalendarNotice = styled.div`
   text-align: center;
 `;
 
-export const InputsContainer = styled.div`
+export const InputsContainer = styled.div<{
+  oneItem?: boolean;
+}>`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: ${({ oneItem }) => (oneItem ? 'flex-start' : 'space-between')};
   align-items: center;
-  margin: 15px;
+  padding: 15px;
   gap: 25px;
+  ${({ oneItem }) => (oneItem ? 'width: 50%' : '')}
 `;
